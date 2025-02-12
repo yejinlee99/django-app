@@ -8,6 +8,7 @@ https://docs.djangoproject.com/en/5.1/howto/deployment/asgi/
 """
 
 import os
+from pathlib import Path
 
 from django.conf import settings
 from django.core.asgi import get_asgi_application
@@ -17,5 +18,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_app.settings')
 
 application = get_asgi_application()
 
-# blackenoise 설정
-application = BlackNoise(application, root=settings.STATIC_ROOT)
+# blacknoise(asgi전용) 설정
+application = BlackNoise(get_asgi_application())
+application.add(settings.BASE_DIR / "static", "/static")
